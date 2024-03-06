@@ -11,14 +11,22 @@
 			move_uploaded_file($_FILES['photo']['tmp_name'], '../images/'.$filename);	
 		}
 
-		$sql = "INSERT INTO candidates (position_id, firstname, lastname, photo, platform) VALUES ('$position', '$firstname', '$lastname', '$filename', '$platform')";
-		if($conn->query($sql)){
-			$_SESSION['success'] = 'Candidate added successfully';
+		// Utilisation de requêtes préparées
+		$sql = "INSERT INTO candidates (position_id, firstname, lastname, photo, platform) VALUES (?, ?, ?, ?, ?)";
+		$stmt = $conn->prepare($sql);
+		if($stmt){
+			$stmt->bind_param("issss", $position, $firstname, $lastname, $filename, $platform);
+			if($stmt->execute()){
+				$_SESSION['success'] = 'Candidate added successfully';
+			}
+			else{
+				$_SESSION['error'] = $stmt->error;
+			}
+			$stmt->close();
 		}
 		else{
 			$_SESSION['error'] = $conn->error;
 		}
-
 	}
 	else{
 		$_SESSION['error'] = 'Fill up add form first';

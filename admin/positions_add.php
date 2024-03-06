@@ -12,9 +12,18 @@ if(isset($_POST['add'])){
     $row = $query->fetch_assoc();
     $priority = $row['priority'] + 1;
 
-    $sql = "INSERT INTO positions (description, max_vote, start_date, end_date, priority) VALUES ('$description', '$max_vote', '$start_date', '$end_date', '$priority')";
-    if($conn->query($sql)){
-        $_SESSION['success'] = 'Position added successfully';
+    // Utilisation de requêtes préparées pour l'insertion
+    $sql = "INSERT INTO positions (description, max_vote, start_date, end_date, priority) VALUES (?, ?, ?, ?, ?)";
+    $stmt = $conn->prepare($sql);
+    if($stmt){
+        $stmt->bind_param("sissi", $description, $max_vote, $start_date, $end_date, $priority);
+        if($stmt->execute()){
+            $_SESSION['success'] = 'Position added successfully';
+        }
+        else{
+            $_SESSION['error'] = $stmt->error;
+        }
+        $stmt->close();
     }
     else{
         $_SESSION['error'] = $conn->error;

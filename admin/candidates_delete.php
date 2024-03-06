@@ -3,9 +3,19 @@
 
 	if(isset($_POST['delete'])){
 		$id = $_POST['id'];
-		$sql = "DELETE FROM candidates WHERE id = '$id'";
-		if($conn->query($sql)){
-			$_SESSION['success'] = 'Candidate deleted successfully';
+
+		// Utilisation de requêtes préparées
+		$sql = "DELETE FROM candidates WHERE id = ?";
+		$stmt = $conn->prepare($sql);
+		if($stmt){
+			$stmt->bind_param("i", $id);
+			if($stmt->execute()){
+				$_SESSION['success'] = 'Candidate deleted successfully';
+			}
+			else{
+				$_SESSION['error'] = $stmt->error;
+			}
+			$stmt->close();
 		}
 		else{
 			$_SESSION['error'] = $conn->error;
@@ -16,5 +26,4 @@
 	}
 
 	header('location: candidates.php');
-	
 ?>

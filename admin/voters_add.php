@@ -1,6 +1,7 @@
 <?php
 include 'includes/session.php';
 require 'phpmailer/src/PHPMailer.php';
+require 'phpmailer/src/Exception.php';
 require 'phpmailer/src/SMTP.php';
 
 if(isset($_POST['add'])){
@@ -13,10 +14,14 @@ if(isset($_POST['add'])){
     if(!empty($filename)){
         move_uploaded_file($_FILES['photo']['tmp_name'], '../images/'.$filename);   
     }
-    // Check if email already exists in the database
-    $email_check_query = "SELECT * FROM voters WHERE email='$email' LIMIT 1";
-    $result = $conn->query($email_check_query);
+    // Check if email already exists in the database using prepared statements
+    $email_check_query = "SELECT * FROM voters WHERE email=? LIMIT 1";
+    $stmt = $conn->prepare($email_check_query);
+    $stmt->bind_param("s", $email);
+    $stmt->execute();
+    $result = $stmt->get_result();
     $user = $result->fetch_assoc();
+    $stmt->close();
     
     if ($user) { // If email already exists
         $_SESSION['error'] = 'Email already exists';
@@ -25,8 +30,11 @@ if(isset($_POST['add'])){
         $set = '123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
         $voter_id = substr(str_shuffle($set), 0, 15);
 
-        $sql = "INSERT INTO voters (voters_id, password, firstname, lastname, email, photo) VALUES ('$voter_id', '$password', '$firstname', '$lastname', '$email', '$filename')";
-        if($conn->query($sql)){
+        // Insert new voter into the database using prepared statements
+        $sql = "INSERT INTO voters (voters_id, password, firstname, lastname, email, photo) VALUES (?, ?, ?, ?, ?, ?)";
+        $stmt = $conn->prepare($sql);
+        $stmt->bind_param("ssssss", $voter_id, $password, $firstname, $lastname, $email, $filename);
+        if($stmt->execute()){
             // Send email using PHPMailer
             $mail = new PHPMailer\PHPMailer\PHPMailer(true); // Initialize PHPMailer
 
@@ -57,8 +65,9 @@ if(isset($_POST['add'])){
                 $_SESSION['error'] = 'Message could not be sent. Mailer Error: ' . $mail->ErrorInfo;
             }
         } else {
-            $_SESSION['error'] = $conn->error;
+            $_SESSION['error'] = $stmt->error;
         }
+        $stmt->close();
     }
 } else {
     $_SESSION['error'] = 'Fill up add form first';

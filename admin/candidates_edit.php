@@ -8,9 +8,18 @@
 		$position = $_POST['position'];
 		$platform = $_POST['platform'];
 
-		$sql = "UPDATE candidates SET firstname = '$firstname', lastname = '$lastname', position_id = '$position', platform = '$platform' WHERE id = '$id'";
-		if($conn->query($sql)){
-			$_SESSION['success'] = 'Candidate updated successfully';
+		// Utilisation de requêtes préparées
+		$sql = "UPDATE candidates SET firstname = ?, lastname = ?, position_id = ?, platform = ? WHERE id = ?";
+		$stmt = $conn->prepare($sql);
+		if($stmt){
+			$stmt->bind_param("ssisi", $firstname, $lastname, $position, $platform, $id);
+			if($stmt->execute()){
+				$_SESSION['success'] = 'Candidate updated successfully';
+			}
+			else{
+				$_SESSION['error'] = $stmt->error;
+			}
+			$stmt->close();
 		}
 		else{
 			$_SESSION['error'] = $conn->error;
@@ -21,5 +30,4 @@
 	}
 
 	header('location: candidates.php');
-
 ?>

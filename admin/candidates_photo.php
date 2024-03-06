@@ -8,9 +8,18 @@
 			move_uploaded_file($_FILES['photo']['tmp_name'], '../images/'.$filename);	
 		}
 		
-		$sql = "UPDATE candidates SET photo = '$filename' WHERE id = '$id'";
-		if($conn->query($sql)){
-			$_SESSION['success'] = 'Photo updated successfully';
+		// Utilisation de requêtes préparées
+		$sql = "UPDATE candidates SET photo = ? WHERE id = ?";
+		$stmt = $conn->prepare($sql);
+		if($stmt){
+			$stmt->bind_param("si", $filename, $id);
+			if($stmt->execute()){
+				$_SESSION['success'] = 'Photo updated successfully';
+			}
+			else{
+				$_SESSION['error'] = $stmt->error;
+			}
+			$stmt->close();
 		}
 		else{
 			$_SESSION['error'] = $conn->error;

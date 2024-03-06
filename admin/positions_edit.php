@@ -6,9 +6,18 @@
 		$description = $_POST['description'];
 		$max_vote = $_POST['max_vote'];
 
-		$sql = "UPDATE positions SET description = '$description', max_vote = '$max_vote' WHERE id = '$id'";
-		if($conn->query($sql)){
-			$_SESSION['success'] = 'Position updated successfully';
+		// Utilisation de requêtes préparées pour mettre à jour la position
+		$sql = "UPDATE positions SET description = ?, max_vote = ? WHERE id = ?";
+		$stmt = $conn->prepare($sql);
+		if($stmt){
+			$stmt->bind_param("ssi", $description, $max_vote, $id);
+			if($stmt->execute()){
+				$_SESSION['success'] = 'Position updated successfully';
+			}
+			else{
+				$_SESSION['error'] = $stmt->error;
+			}
+			$stmt->close();
 		}
 		else{
 			$_SESSION['error'] = $conn->error;
@@ -19,5 +28,4 @@
 	}
 
 	header('location: positions.php');
-
 ?>

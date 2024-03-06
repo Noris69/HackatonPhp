@@ -59,22 +59,26 @@
                 <tbody>
                   <?php
                     $sql = "SELECT * FROM positions ORDER BY priority ASC";
-                    $query = $conn->query($sql);
-                    while($row = $query->fetch_assoc()){
-                      echo "
-                        <tr style='color:black ; font-size: 15px; font-family:Times'>
-                          <td class='hidden'></td>
-                          <td>".$row['description']."</td>
-                          <td>".$row['max_vote']."</td>
-                          <td>
-                          
-                            
-
-                            <button class='btn btn-success btn-sm edit btn-curve' style='background-color: #9CD095 ;color:black ; font-size: 12px; font-family:Times' ' data-id='".$row['id']."' ><i class='fa fa-edit'></i> Edit</button>
-                            <button class='btn btn-danger btn-sm delete btn-curve' style='background-color:#ff8e88 ;color:black ; font-size: 12px; font-family:Times ' data-id='".$row['id']."'><i class='fa fa-trash'></i> Delete</button>
-                          </td>
-                        </tr>
-                      ";
+                    $stmt = $conn->prepare($sql);
+                    if($stmt){
+                      $stmt->execute();
+                      $result = $stmt->get_result();
+                      while($row = $result->fetch_assoc()){
+                        echo "
+                          <tr style='color:black ; font-size: 15px; font-family:Times'>
+                            <td class='hidden'></td>
+                            <td>".$row['description']."</td>
+                            <td>".$row['max_vote']."</td>
+                            <td>
+                              <button class='btn btn-success btn-sm edit btn-curve' style='background-color: #9CD095 ;color:black ; font-size: 12px; font-family:Times' ' data-id='".$row['id']."' ><i class='fa fa-edit'></i> Edit</button>
+                              <button class='btn btn-danger btn-sm delete btn-curve' style='background-color:#ff8e88 ;color:black ; font-size: 12px; font-family:Times ' data-id='".$row['id']."'><i class='fa fa-trash'></i> Delete</button>
+                            </td>
+                          </tr>
+                        ";
+                      }
+                      $stmt->close();
+                    } else {
+                      echo "Error executing the query.";
                     }
                   ?>
                 </tbody>

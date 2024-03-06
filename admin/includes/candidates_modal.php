@@ -49,14 +49,18 @@
                       <select class="form-control" id="position" name="position" required>
                         <option value="" selected>- Select -</option>
                         <?php
-                          $sql = "SELECT * FROM positions";
-                          $query = $conn->query($sql);
-                          while($row = $query->fetch_assoc()){
-                            echo "
-                              <option value='".$row['id']."'>".$row['description']."</option>
-                            ";
-                          }
-                        ?>
+$sql = "SELECT id, description FROM positions";
+$stmt = $conn->prepare($sql);
+$stmt->execute();
+$stmt->bind_result($id, $description);
+
+while($stmt->fetch()){
+    echo "<option value='".$id."'>".$description."</option>";
+}
+
+$stmt->close();
+?>
+
                       </select>
                     </div>
                 </div>
@@ -117,14 +121,18 @@
                       <select class="form-control" id="edit_position" name="position" required>
                         <option value="" selected id="posselect"></option>
                         <?php
-                          $sql = "SELECT * FROM positions";
-                          $query = $conn->query($sql);
-                          while($row = $query->fetch_assoc()){
-                            echo "
-                              <option value='".$row['id']."'>".$row['description']."</option>
-                            ";
-                          }
-                        ?>
+$sql = "SELECT id, description FROM positions";
+$stmt = $conn->prepare($sql);
+$stmt->execute();
+$result = $stmt->get_result();
+
+while($row = $result->fetch_assoc()){
+    echo "<option value='".$row['id']."'>".$row['description']."</option>";
+}
+
+$stmt->close();
+?>
+
                       </select>
                     </div>
                 </div>

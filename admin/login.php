@@ -6,13 +6,15 @@ if (isset($_POST['login'])) {
     $username = $_POST['username'];
     $password = $_POST['password'];
 
-    $stmt = $conn->prepare("SELECT * FROM admin WHERE username = :username");
-    $stmt->execute(['username' => $username]);
-    $row = $stmt->fetch();
+    $stmt = $conn->prepare("SELECT * FROM admin WHERE username = ?");
+    $stmt->bind_param("s", $username);
+    $stmt->execute();
+    $result = $stmt->get_result();
 
-    if (!$row) {
+    if ($result->num_rows < 1) {
         $_SESSION['error'] = 'Cannot find account with the username';
     } else {
+        $row = $result->fetch_assoc();
         if (password_verify($password, $row['password'])) {
             $_SESSION['admin'] = $row['id'];
         } else {
@@ -23,6 +25,8 @@ if (isset($_POST['login'])) {
     $_SESSION['error'] = 'Input admin credentials first';
 }
 
-$conn = null; // Fermeture de la connexion
+$stmt->close();
+$conn->close();
+
 header('location: index.php');
 ?>

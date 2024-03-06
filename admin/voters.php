@@ -56,25 +56,26 @@
                   <th>Outils</th>
                 </thead>
                 <tbody>
-                  <?php
-                    $sql = "SELECT * FROM voters";
-                    $query = $conn->query($sql);
-                    while($row = $query->fetch_assoc()){
-                      $image = (!empty($row['photo'])) ? '../images/'.$row['photo'] : '../images/profile.jpg';
-                      echo "
-                        <tr style='color:black ; font-size: 15px; font-family:Times'>
-                          
-                          <td>".$row['voters_id']."</td>
-                          <td>
-                           
-                            <button class='btn btn-success btn-sm edit btn-curve' style='background-color: #9CD095 ;color:black ; font-size: 12px; font-family:Times' ' data-id='".$row['id']."' ><i class='fa fa-edit'></i> Edit</button>
-                            <button class='btn btn-danger btn-sm delete btn-curve' style='background-color:#ff8e88 ;color:black ; font-size: 12px; font-family:Times ' data-id='".$row['id']."'><i class='fa fa-trash'></i> Delete</button>
+                  <?php 
 
-                          </td>
-                        </tr>
-                      ";
-                    }
-                  ?>
+    $sql = "SELECT id, voters_id FROM voters";
+    $stmt = $conn->prepare($sql);
+    $stmt->execute();
+    $result = $stmt->get_result();
+
+    while($row = $result->fetch_assoc()){
+        $image = (!empty($row['photo'])) ? '../images/'.$row['photo'] : '../images/profile.jpg';
+        echo "
+            <tr style='color:black ; font-size: 15px; font-family:Times'>
+                <td>".$row['voters_id']."</td>
+                <td>
+                    <button class='btn btn-success btn-sm edit btn-curve' style='background-color: #9CD095 ;color:black ; font-size: 12px; font-family:Times' ' data-id='".$row['id']."' ><i class='fa fa-edit'></i> Edit</button>
+                    <button class='btn btn-danger btn-sm delete btn-curve' style='background-color:#ff8e88 ;color:black ; font-size: 12px; font-family:Times ' data-id='".$row['id']."'><i class='fa fa-trash'></i> Delete</button>
+                </td>
+            </tr>
+        ";
+    }
+?>
                 </tbody>
               </table>
             </div>
