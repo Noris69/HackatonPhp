@@ -12,11 +12,11 @@
 <body class="hold-transition login-page" style="background-color:#F1E9D2"> 
 <div class="login-box" style="background-color:#a69f8b ;color:white ; font-size: 22px; font-family:Times">
   	<div class="login-logo" style="background-color:#a69f8b ;color:white ; font-size: 22px; font-family:Times  ">
-  		<b> Online Voting System</b>
+  		<b> Login Électeurs</b>
   	</div>
   
   	<div class="login-box-body" style="background-color:#a69f8b ;color:white ; font-size: 22px; font-family:Times" >
-    	<p class="login-box-msg" style="color:black ; font-size: 16px; font-family:Times  " >Sign in to start your voting session</p>
+    	<p class="login-box-msg" style="color:black ; font-size: 16px; font-family:Times  " >Connectez-vous pour démarrer votre session de vote</p>
 
     	<form action="login.php" method="POST">
       		<div class="form-group has-feedback">
@@ -29,7 +29,7 @@
           </div>
       		<div class="row">
     			<div class="col-xs-4">
-          			<button type="submit" class="btn btn-primary btn-block btn-curve" style="background-color: #4682B4 ;color:black ; font-size: 12px; font-family:Times" name="login"><i class="fa fa-sign-in"></i> Sign In</button>
+          			<button type="submit" class="btn btn-primary btn-block btn-curve" style="background-color: #4682B4 ;color:black ; font-size: 12px; font-family:Times" name="login"><i class="fa fa-sign-in"></i> Se connecté</button>
         		</div>
       		</div>
     	</form>

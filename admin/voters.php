@@ -51,11 +51,9 @@
             <div class="box-body">
               <table id="example1" class="table ">
                 <thead>
-                  <th>Lastname</th>
-                  <th>Firstname</th>
-                  <th>Photo</th>
+                  
                   <th>Voters ID</th>
-                  <th>Tools</th>
+                  <th>Outils</th>
                 </thead>
                 <tbody>
                   <?php
@@ -65,12 +63,7 @@
                       $image = (!empty($row['photo'])) ? '../images/'.$row['photo'] : '../images/profile.jpg';
                       echo "
                         <tr style='color:black ; font-size: 15px; font-family:Times'>
-                          <td>".$row['lastname']."</td>
-                          <td>".$row['firstname']."</td>
-                          <td>
-                            <img src='".$image."' width='30px' height='30px'>
-                            <a href='#edit_photo' data-toggle='modal' class='pull-right photo' data-id='".$row['id']."'><span class='fa fa-edit'></span></a>
-                          </td>
+                          
                           <td>".$row['voters_id']."</td>
                           <td>
                            

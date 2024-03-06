@@ -1,37 +1,52 @@
 <!-- Add -->
-<div class="modal fade" id="addnew" >
-    <div class="modal-dialog" >
+<div class="modal fade" id="addnew">
+    <div class="modal-dialog">
         <div class="modal-content" style="background-color: #d8d1bd ;color:black ; font-size: 15px; font-family:Times ">
             <div class="modal-header">
-              <button type="button" class=" btn btn-close btn-curve pull-right"  data-dismiss="modal" aria-label="Close">
-                  <span aria-hidden="true">&times;</span></button>
-              <h4 class="modal-title"><b>Add New Position</b></h4>
+                <button type="button" class="btn btn-close btn-curve pull-right" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title"><b>Add New Position</b></h4>
             </div>
             <div class="modal-body">
-              <form class="form-horizontal" method="POST" action="positions_add.php">
-                <div class="form-group">
-                    <label for="description" class="col-sm-3 control-label">Description</label>
+                <form class="form-horizontal" method="POST" action="positions_add.php">
+                    <div class="form-group">
+                        <label for="description" class="col-sm-3 control-label">Description</label>
 
-                    <div class="col-sm-9">
-                      <input type="text" class="form-control" id="description" name="description" required>
+                        <div class="col-sm-9">
+                            <input type="text" class="form-control" id="description" name="description" required>
+                        </div>
                     </div>
-                </div>
-                <div class="form-group">
-                    <label for="max_vote" class="col-sm-3 control-label">Maximum Vote</label>
+                    <div class="form-group">
+                        <label for="max_vote" class="col-sm-3 control-label">Maximum Vote</label>
 
-                    <div class="col-sm-9">
-                      <input type="number" class="form-control" id="max_vote" name="max_vote" required>
+                        <div class="col-sm-9">
+                            <input type="number" class="form-control" id="max_vote" name="max_vote" required>
+                        </div>
                     </div>
-                </div>
+                    <div class="form-group">
+                        <label for="start_date" class="col-sm-3 control-label">Start Date</label>
+
+                        <div class="col-sm-9">
+                            <input type="date" class="form-control" id="start_date" name="start_date" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="end_date" class="col-sm-3 control-label">End Date</label>
+
+                        <div class="col-sm-9">
+                            <input type="date" class="form-control" id="end_date" name="end_date" required>
+                        </div>
+                    </div>
             </div>
             <div class="modal-footer">
-              <button type="button" class="btn btn-default btn-curve pull-left"style='background-color:  #FFDEAD  ;color:black ; font-size: 12px; font-family:Times'  data-dismiss="modal"><i class="fa fa-close"></i> Close</button>
-              <button type="submit" class="btn btn-primary btn-curve"style='background-color: #9CD095 ;color:black ; font-size: 12px; font-family:Times'  name="add"><i class="fa fa-save"></i> Save</button>
-              </form>
+                <button type="button" class="btn btn-default btn-curve pull-left" style='background-color: #FFDEAD ;color:black ; font-size: 12px; font-family:Times' data-dismiss="modal"><i class="fa fa-close"></i> Close</button>
+                <button type="submit" class="btn btn-primary btn-curve" style='background-color: #9CD095 ;color:black ; font-size: 12px; font-family:Times' name="add"><i class="fa fa-save"></i> Save</button>
+                </form>
             </div>
         </div>
     </div>
 </div>
+
 
 <!-- Edit -->
 <div class="modal fade" id="edit">

@@ -57,13 +57,13 @@
                 echo "<h3>".$query->num_rows."</h3>";
               ?>
 
-              <p > <b >No. of Positions </b> </p>
+              <p > <b >Nombre d'élections</b> </p>
             </div>
             <div class="icon">
               <i class="fa fa-cog"></i>
             </div>
             
-            <a href="positions.php" class="small-box-footer " style="background-color:#4682B4 ; color:black ; font-size:18px">More info <i class="fa fa-arrow-right"></i></a>
+            <a href="positions.php" class="small-box-footer " style="background-color:#4682B4 ; color:black ; font-size:18px">Plus d'infos <i class="fa fa-arrow-right"></i></a>
           </div>
           
         </div>
@@ -79,14 +79,13 @@
                 echo "<h3  >".$query->num_rows."</h3>";
               ?>
           
-              <p> <b >No. of Candidates </b></p>
+              <p> <b >Nombre de candidats </b></p>
             </div>
             <div class="icon">
               
-             <i class="fa fa-black-tie"></i>
              
             </div>
-            <a href="candidates.php" class="small-box-footer" style="background-color:	#8B4513 ;color:black ; font-size: 18px">More info <i class="fa fa-arrow-right"></i></a>
+            <a href="candidates.php" class="small-box-footer" style="background-color:	#8B4513 ;color:black ; font-size: 18px">Plus d'infos <i class="fa fa-arrow-right"></i></a>
           </div>
         </div>
         <!-- ./col -->
@@ -101,12 +100,11 @@
                 echo "<h3>".$query->num_rows."</h3>";
               ?>
              
-              <p> <b >Total Voters </b></p>
+              <p> <b >Nombre d'élection</b></p>
             </div>
             <div class="icon">
-              <i class="fa fa-users"></i>
             </div>
-            <a href="voters.php" class="small-box-footer "style="background-color:  #96837E ;color:black ; font-size: 18px">More info <i class="fa fa-arrow-right"></i></a>
+            <a href="voters.php" class="small-box-footer "style="background-color:  #96837E ;color:black ; font-size: 18px">Plus d'infos <i class="fa fa-arrow-right"></i></a>
           </div>
         </div>
         <!-- ./col -->
@@ -121,12 +119,11 @@
                 echo "<h3>".$query->num_rows."</h3>";
               ?>
 
-              <p> <b>Voters Voted </b></p>
+              <p> <b>Bulletins soumis</b></p>
             </div>
             <div class="icon">
-              <i class="fa fa-edit"></i>
             </div>
-            <a href="votes.php" class="small-box-footer "style="background-color: #2F4F4F ;color:black ; font-size: 18px">More info <i class="fa fa-arrow-right"></i></a>
+            <a href="votes.php" class="small-box-footer "style="background-color: #2F4F4F ;color:black ; font-size: 18px">Plus d'infos <i class="fa fa-arrow-right"></i></a>
           </div>
         </div>
         <!-- ./col -->
@@ -134,7 +131,7 @@
 
       <div class="row" style="color:black ; font-size: 17px; font-family:Times">
         <div class="col-xs-12" >
-          <h3> <b>VOTES TALLY
+          <h3> <b>Résultat des votes
             <span class="pull-right">
             
               <a href="print.php" class="btn btn-success btn-sm btn-curve" style="background-color: #2E8B57 ;color:black ; font-size: 12px; font-family:Times "><span class="glyphicon glyphicon-print"></span> Print</a>

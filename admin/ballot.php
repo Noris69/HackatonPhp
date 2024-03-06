@@ -11,10 +11,10 @@
     <!-- Content Header (Page header) -->
     <section class="content-header">
       <h1><b>
-        Ballot Position
+        Gestion des scrutins
       </b></h1>
       <ol class="breadcrumb" style="color:black ; font-size: 17px; font-family:Times">
-        <li><a href="#"><i class="fa fa-dashboard" ></i> Home</a></li>
+        <li><a href="#"><i class="fa fa-dashboard" ></i> Acceuil</a></li>
         <li class="active" style="color:black ; font-size: 17px; font-family:Times" >Dashboard</li>
       </ol>
     </section>

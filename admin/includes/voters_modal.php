@@ -10,25 +10,20 @@
             <div class="modal-body">
               <form class="form-horizontal" method="POST" action="voters_add.php" enctype="multipart/form-data">
                 <div class="form-group">
-                    <label for="firstname" class="col-sm-3 control-label">Firstname</label>
+                    <label for="firstname" class="col-sm-3 control-label">Prénom</label>
 
                     <div class="col-sm-9">
                       <input type="text" class="form-control" id="firstname" name="firstname" required>
                     </div>
                 </div>
                 <div class="form-group">
-                    <label for="lastname" class="col-sm-3 control-label">Lastname</label>
+                    <label for="lastname" class="col-sm-3 control-label">Nom</label>
 
                     <div class="col-sm-9">
                       <input type="text" class="form-control" id="lastname" name="lastname" required>
                     </div>
                 </div>
-                <div class="form-group">
-                    <label for="password" class="col-sm-3 control-label">Password</label>
-
-                    <div class="col-sm-9">
-                      <input type="password" class="form-control" id="password" name="password" required>
-                    </div>
+                
                     <div class="form-group">
                 <label for="email" class="col-sm-3 control-label">Email</label>
                 <div class="col-sm-9">
@@ -65,20 +60,7 @@
             <div class="modal-body">
               <form class="form-horizontal" method="POST" action="voters_edit.php">
                 <input type="hidden" class="id" name="id">
-                <div class="form-group">
-                    <label for="edit_firstname" class="col-sm-3 control-label">Firstname</label>
-
-                    <div class="col-sm-9">
-                      <input type="text" class="form-control" id="edit_firstname" name="firstname">
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label for="edit_lastname" class="col-sm-3 control-label">Lastname</label>
-
-                    <div class="col-sm-9">
-                      <input type="text" class="form-control" id="edit_lastname" name="lastname">
-                    </div>
-                </div>
+              
                 <div class="form-group">
                     <label for="edit_password" class="col-sm-3 control-label">Password</label>
 

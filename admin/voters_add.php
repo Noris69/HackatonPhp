@@ -6,50 +6,50 @@ require 'phpmailer/src/SMTP.php';
 if(isset($_POST['add'])){
     $firstname = $_POST['firstname'];
     $lastname = $_POST['lastname'];
-    $raw_password = $_POST['password']; // Mot de passe non hashé
-    $password = password_hash($raw_password, PASSWORD_DEFAULT); // Hasher le mot de passe
-    $email = $_POST['email']; // Récupération de l'adresse e-mail depuis le formulaire
+    $raw_password = generateRandomPassword(); // Generate a random password
+    $password = password_hash($raw_password, PASSWORD_DEFAULT); // Hash the generated password
+    $email = $_POST['email']; // Get email from the form
     $filename = $_FILES['photo']['name'];
     if(!empty($filename)){
         move_uploaded_file($_FILES['photo']['tmp_name'], '../images/'.$filename);   
     }
-    // Vérifier si l'e-mail existe déjà dans la base de données
+    // Check if email already exists in the database
     $email_check_query = "SELECT * FROM voters WHERE email='$email' LIMIT 1";
     $result = $conn->query($email_check_query);
     $user = $result->fetch_assoc();
     
-    if ($user) { // Si l'e-mail existe déjà
+    if ($user) { // If email already exists
         $_SESSION['error'] = 'Email already exists';
     } else {
-        // Générer l'ID de l'électeur
+        // Generate voter ID
         $set = '123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
         $voter_id = substr(str_shuffle($set), 0, 15);
 
         $sql = "INSERT INTO voters (voters_id, password, firstname, lastname, email, photo) VALUES ('$voter_id', '$password', '$firstname', '$lastname', '$email', '$filename')";
         if($conn->query($sql)){
-            // Envoyer un e-mail avec PHPMailer
-            $mail = new PHPMailer\PHPMailer\PHPMailer(true); // Initialisez la classe PHPMailer
+            // Send email using PHPMailer
+            $mail = new PHPMailer\PHPMailer\PHPMailer(true); // Initialize PHPMailer
 
             try {
-                // Configuration de l'e-mail
+                // Email configuration
                 $mail->isSMTP();
-                $mail->Host = 'smtp.gmail.com'; // Entrez votre serveur SMTP
+                $mail->Host = 'smtp.gmail.com'; // Enter your SMTP server
                 $mail->SMTPAuth = true;
-                $mail->Username = 'cheikh.noris69@gmail.com'; // Entrez votre adresse e-mail
-                $mail->Password = 'eubv load dxux sdco'; // Entrez votre mot de passe
+                $mail->Username = 'cheikh.noris69@gmail.com'; // Enter your email address
+                $mail->Password = 'eubv load dxux sdco'; // Enter your password
                 $mail->SMTPSecure = 'ssl';
                 $mail->Port = 465;
 
-                // Destinataire
-                $mail->setFrom('your_email@example.com', $firstname . ' ' . $lastname); // Utiliser le prénom et le nom du nouvel électeur comme nom de l'expéditeur
-                $mail->addAddress($email); // Adresse e-mail fournie dans le formulaire
+                // Recipient
+                $mail->setFrom('your_email@example.com', $firstname . ' ' . $lastname); // Use the first name and last name of the new voter as sender name
+                $mail->addAddress($email); // Email address provided in the form
 
-                // Contenu de l'e-mail
+                // Email content
                 $mail->isHTML(true);
                 $mail->Subject = 'Your Voter ID and Password';
-                $mail->Body = 'Voter ID: ' . $voter_id . '<br>Password: ' . $raw_password; // Utiliser le mot de passe non hashé pour l'envoyer par e-mail
+                $mail->Body = 'Voter ID: ' . $voter_id . '<br>Password: ' . $raw_password; // Use the raw password to send via email
 
-                // Envoyer l'e-mail
+                // Send email
                 $mail->send();
 
                 $_SESSION['success'] = 'Voter added successfully and email sent';
@@ -65,4 +65,13 @@ if(isset($_POST['add'])){
 }
 
 header('location: voters.php');
+
+function generateRandomPassword($length = 10) {
+    $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+    $password = '';
+    for ($i = 0; $i < $length; $i++) {
+        $password .= $characters[rand(0, strlen($characters) - 1)];
+    }
+    return $password;
+}
 ?>

@@ -60,8 +60,8 @@
 				    	if($vquery->num_rows > 0){
 				    		?>
 				    		<div class="text-center" style="color:black ; font-size: 35px; font-family:Times" >
-					    		<h3>You have already voted for this election.</h3>
-					    		<a href="#view" data-toggle="modal" class="btn btn-curve btn-primary btn-lg" style="background-color: #4682B4 ;color:black ; font-size: 22px; font-family:Times">View Ballot</a>
+					    		<h3>Vous avez déjà voté pour cette élection.</h3>
+					    		<a href="#view" data-toggle="modal" class="btn btn-curve btn-primary btn-lg" style="background-color: #4682B4 ;color:black ; font-size: 22px; font-family:Times">Consulter votre bulletin de vote</a>
 					    	</div>
 				    		<?php
 				    	}
@@ -73,7 +73,9 @@
 				        			include 'includes/slugify.php';
 
 				        			$candidate = '';
-				        			$sql = "SELECT * FROM positions ORDER BY priority ASC";
+									$current_date = date('Y-m-d');
+
+				        			$sql = "SELECT * FROM positions WHERE start_date <= '$current_date' AND end_date >= '$current_date' ORDER BY priority ASC";
 									$query = $conn->query($sql);
 									while($row = $query->fetch_assoc()){
 										$sql = "SELECT * FROM candidates WHERE position_id='".$row['id']."'";
