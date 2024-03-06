@@ -51,9 +51,9 @@
 <!-- Edit -->
 <div class="modal fade" id="edit">
     <div class="modal-dialog">
-        <div class="modal-content" style="background-color: #d8d1bd ;color:black ; font-size: 15px; font-family:Times ">
+        <div class="modal-content" style="background-color: #d8d1bd; color:black; font-size: 15px; font-family:Times">
             <div class="modal-header">
-              <button type="button" class=" btn btn-close btn-curve pull-right"  data-dismiss="modal" aria-label="Close">
+              <button type="button" class="btn btn-close btn-curve pull-right" data-dismiss="modal" aria-label="Close">
                   <span aria-hidden="true">&times;</span></button>
               <h4 class="modal-title"><b>Edit Position</b></h4>
             </div>
@@ -62,22 +62,32 @@
                 <input type="hidden" class="id" name="id">
                 <div class="form-group">
                     <label for="edit_description" class="col-sm-3 control-label">Description</label>
-
                     <div class="col-sm-9">
                       <input type="text" class="form-control" id="edit_description" name="description">
                     </div>
                 </div>
                 <div class="form-group">
                     <label for="edit_max_vote" class="col-sm-3 control-label">Maximum Vote</label>
-
                     <div class="col-sm-9">
                       <input type="number" class="form-control" id="edit_max_vote" name="max_vote">
                     </div>
                 </div>
+                <div class="form-group">
+                    <label for="edit_start_date" class="col-sm-3 control-label">Start Date</label>
+                    <div class="col-sm-9">
+                      <input type="date" class="form-control" id="edit_start_date" name="start_date">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="edit_end_date" class="col-sm-3 control-label">End Date</label>
+                    <div class="col-sm-9">
+                      <input type="date" class="form-control" id="edit_end_date" name="end_date">
+                    </div>
+                </div>
             </div>
             <div class="modal-footer">
-              <button type="button" class="btn btn-default btn-curve pull-left"style='background-color: #FFDEAD ;color:black ; font-size: 12px; font-family:Times'  data-dismiss="modal"><i class="fa fa-close"></i> Close</button>
-              <button type="submit" class="btn btn-success btn-curve" style='background-color: #9CD095 ;color:black ; font-size: 12px; font-family:Times'  name="edit"><i class="fa fa-check-square-o"></i> Update</button>
+              <button type="button" class="btn btn-default btn-curve pull-left" style="background-color: #FFDEAD; color:black; font-size: 12px; font-family:Times" data-dismiss="modal"><i class="fa fa-close"></i> Close</button>
+              <button type="submit" class="btn btn-success btn-curve" style="background-color: #9CD095; color:black; font-size: 12px; font-family:Times" name="edit"><i class="fa fa-check-square-o"></i> Update</button>
               </form>
             </div>
         </div>
