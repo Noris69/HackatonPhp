@@ -55,98 +55,101 @@
 			        </div>
 
 				    <?php
+				    	$sql = "SELECT * FROM votes WHERE voters_id = '".$voter['id']."'";
+				    	$vquery = $conn->query($sql);
+				    	if($vquery->num_rows > 0){
+				    		?>
+				    		<div class="text-center" style="color:black ; font-size: 35px; font-family:Times" >
+					    		<h3>Vous avez déjà voté pour cette élection.</h3>
+					    		<a href="#view" data-toggle="modal" class="btn btn-curve btn-primary btn-lg" style="background-color: #4682B4 ;color:black ; font-size: 22px; font-family:Times">Consulter votre bulletin de vote</a>
+					    	</div>
+				    		<?php
+				    	}
+				    	else{
+				    		?>
+			    			<!-- Voting Ballot -->
+						    <form method="POST" id="ballotForm" action="submit_ballot.php">
+				        		<?php
+				        			include 'includes/slugify.php';
 
-	$sql = "SELECT * FROM votes WHERE voters_id = ?";
-	$stmt = $conn->prepare($sql);
-	$stmt->bind_param("i", $voter['id']);
-	$stmt->execute();
-	$result = $stmt->get_result();
+				        			$candidate = '';
+									                        $current_date = date('Y-m-d');
 
-	if ($result->num_rows > 0) {
-?>
-		<div class="text-center" style="color:black ; font-size: 35px; font-family:Times">
-			<h3>Vous avez déjà voté pour cette élection.</h3>
-			<a href="#view" data-toggle="modal" class="btn btn-curve btn-primary btn-lg" style="background-color: #4682B4 ;color:black ; font-size: 22px; font-family:Times">Consulter votre bulletin de vote</a>
-		</div>
-<?php
-	} else {
-?>
-		<form method="POST" id="ballotForm" action="submit_ballot.php">
-<?php
-			include 'includes/slugify.php';
+				        			$sql = "SELECT * FROM positions ORDER BY priority ASC";
+									$query = $conn->query($sql);
+									while($row = $query->fetch_assoc()){
+										$sql = "SELECT * FROM candidates WHERE position_id='".$row['id']."'";
+										$cquery = $conn->query($sql);
+										while($crow = $cquery->fetch_assoc()){
+											$slug = slugify($row['description']);
+											$checked = '';
+											if(isset($_SESSION['post'][$slug])){
+												$value = $_SESSION['post'][$slug];
 
-			$candidate = '';
-			$current_date = date('Y-m-d');
+												if(is_array($value)){
+													foreach($value as $val){
+														if($val == $crow['id']){
+															$checked = 'checked';
+														}
+													}
+												}
+												else{
+													if($value == $crow['id']){
+														$checked = 'checked';
+													}
+												}
+											}
+											$input = ($row['max_vote'] > 1) ? '<input type="checkbox" class="flat-red '.$slug.'" name="'.$slug."[]".'" value="'.$crow['id'].'" '.$checked.'>' : '<input type="radio" class="flat-red '.$slug.'" name="'.slugify($row['description']).'" value="'.$crow['id'].'" '.$checked.'>';
+											$image = (!empty($crow['photo'])) ? 'images/'.$crow['photo'] : 'images/profile.jpg';
+											$candidate .= '
+												<li>
+													'.$input.'<button type="button" class="btn btn-primary btn-sm btn-curve clist platform" style="background-color: #4682B4 ;color:black ; font-size: 12px; font-family:Times" data-platform="'.$crow['platform'].'" data-fullname="'.$crow['firstname'].' '.$crow['lastname'].'"><i class="fa fa-search"></i> Platform</button><img src="'.$image.'" height="100px" width="100px" class="clist"><span class="cname clist">'.$crow['firstname'].' '.$crow['lastname'].'</span>
+												</li>
+											';
+										}
 
-			$sql = "SELECT * FROM positions WHERE start_date <= ? AND end_date >= ? ORDER BY priority ASC";
-			$stmt = $conn->prepare($sql);
-			$stmt->bind_param("ss", $current_date, $current_date);
-			$stmt->execute();
-			$position_result = $stmt->get_result();
+										$instruct = ($row['max_vote'] > 1) ? 'You may select up to '.$row['max_vote'].' candidates' : 'Select only one candidate';
 
-			while($row = $position_result->fetch_assoc()) {
-				$slug = slugify($row['description']);
+										echo '
+											<div class="row">
+												<div class="col-xs-12">
+													<div class="box box-solid" style="background-color: #d8d1bd" id="'.$row['id'].'">
+														<div class="box-header with-border" style="background-color: #d8d1bd">
+															<h3 class="box-title"><b>'.$row['description'].'</b></h3>
+														</div>
+														<div class="box-body" >
+															<p>'.$instruct.'
+																<span class="pull-right">
+																
+																	<button type="button" class="btn btn-success btn-sm btn-curve reset" style="background-color:#9CD095 ;color:black ; font-size: 12px; font-family:Times"  data-desc="'.slugify($row['description']).'"><i class="fa fa-refresh"></i> Reset</button>
+																</span>
+															</p>
+															<div id="candidate_list">
+																<ul>
+																	'.$candidate.'
+																</ul>
+															</div>
+														</div>
+													</div>
+												</div>
+											</div>
+										';
 
-				$sql = "SELECT * FROM candidates WHERE position_id = ?";
-				$stmt = $conn->prepare($sql);
-				$stmt->bind_param("i", $row['id']);
-				$stmt->execute();
-				$candidate_result = $stmt->get_result();
+										$candidate = '';
 
-				while($crow = $candidate_result->fetch_assoc()) {
-					$image = (!empty($crow['photo'])) ? 'images/'.$crow['photo'] : 'images/profile.jpg';
-					$input_type = ($row['max_vote'] > 1) ? 'checkbox' : 'radio';
-					$input_name = ($row['max_vote'] > 1) ? $slug."[]" : slugify($row['description']);
-					$checked = isset($_SESSION['post'][$slug]) && ($_SESSION['post'][$slug] == $crow['id']) ? 'checked' : '';
+									}	
 
-					$candidate .= '
-						<li>
-							<input type="'.$input_type.'" class="flat-red '.$slug.'" name="'.$input_name.'" value="'.$crow['id'].'" '.$checked.'>
-							<button type="button" class="btn btn-primary btn-sm btn-curve clist platform" style="background-color: #4682B4 ;color:black ; font-size: 12px; font-family:Times" data-platform="'.$crow['platform'].'" data-fullname="'.$crow['firstname'].' '.$crow['lastname'].'"><i class="fa fa-search"></i> Platform</button>
-							<img src="'.$image.'" height="100px" width="100px" class="clist">
-							<span class="cname clist">'.$crow['firstname'].' '.$crow['lastname'].'</span>
-						</li>
-					';
-				}
+				        		?>
+				        		<div class="text-center">
+					        		<button type="button" class="btn btn-success btn-curve" style='background-color: #9CD095 ;color:black ; font-size: 12px; font-family:Times' id="preview"><i class="fa fa-file-text"></i> Preview</button> 
+					        		<button type="submit" class="btn btn-primary btn-curve" style='background-color: #4682B4 ;color:black ; font-size: 12px; font-family:Times'name="vote"><i class="fa fa-check-square-o"></i> Submit</button>
+					        	</div>
+				        	</form>
+				        	<!-- End Voting Ballot -->
+				    		<?php
+				    	}
 
-				$instruction = ($row['max_vote'] > 1) ? 'Vous pouvez sélectionner jusqu\'à '.$row['max_vote'].' candidats' : 'Sélectionnez un seul candidat';
-
-				echo '
-					<div class="row">
-						<div class="col-xs-12">
-							<div class="box box-solid" style="background-color: #d8d1bd" id="'.$row['id'].'">
-								<div class="box-header with-border" style="background-color: #d8d1bd">
-									<h3 class="box-title"><b>'.$row['description'].'</b></h3>
-								</div>
-								<div class="box-body">
-									<p>'.$instruction.'
-										<span class="pull-right">
-											<button type="button" class="btn btn-success btn-sm btn-curve reset" style="background-color:#9CD095 ;color:black ; font-size: 12px; font-family:Times"  data-desc="'.slugify($row['description']).'"><i class="fa fa-refresh"></i> Reset</button>
-										</span>
-									</p>
-									<div id="candidate_list">
-										<ul>
-											'.$candidate.'
-										</ul>
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
-				';
-
-				$candidate = '';
-			}
-?>
-			<div class="text-center">
-				<button type="button" class="btn btn-success btn-curve" style='background-color: #9CD095 ;color:black ; font-size: 12px; font-family:Times' id="preview"><i class="fa fa-file-text"></i> Preview</button> 
-				<button type="submit" class="btn btn-primary btn-curve" style='background-color: #4682B4 ;color:black ; font-size: 12px; font-family:Times'name="vote"><i class="fa fa-check-square-o"></i> Submit</button>
-			</div>
-		</form>
-<?php
-	}
-?>
-
+				    ?>
 
 	        	</div>
 	        </div>

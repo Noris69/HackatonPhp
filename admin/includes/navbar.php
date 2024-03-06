@@ -40,7 +40,7 @@
                 <a href="#profile" data-toggle="modal" class="btn btn-default btn-curve" style="background-color: #d2d5d8" id="admin_profile">Update</a>
               </div>
               <div class="pull-right" style="background-color:#90979e ;color:black ; font-size: 17px; font-family:Times">
-                <a href="logout.php" class="btn btn-default btn-curve" style="background-color: #d2d5d8" >  Sign out</a>
+                <a href="logout.php" class="btn btn-default btn-curve" style="background-color: #d2d5d8" >  Se deconnecter</a>
               </div>
             </li>
           </ul>

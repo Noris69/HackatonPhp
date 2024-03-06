@@ -2,26 +2,7 @@
 session_start();
 include 'includes/conn.php';
 
-// Génération du jeton CSRF
-if (!isset($_SESSION['csrf_token'])) {
-    $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
-}
-
 if (isset($_POST['login'])) {
-    // Vérifier si la clé csrf_token est définie dans $_POST
-    if (!isset($_POST['csrf_token'])) {
-        $_SESSION['error'] = 'Missing CSRF token';
-        header('location: index.php');
-        exit;
-    }
-
-    // Validation du jeton CSRF
-    if (!hash_equals($_SESSION['csrf_token'], $_POST['csrf_token'])) {
-        $_SESSION['error'] = 'Invalid CSRF token';
-        header('location: index.php');
-        exit;
-    }
-
     $username = $_POST['username'];
     $password = $_POST['password'];
 

@@ -31,7 +31,7 @@
               <span class="hidden-xs"  style="color:black ; font-size: 22px; font-family:Times  "><?php echo $voter['firstname'].' '.$voter['lastname']; ?></span>
             </a>
           </li>
-          <li><a href="logout.php"> <b style="color:black ; font-size: 22px;> <i class=fa fa-sign-out"> </b></i> <b style="color:black ; font-size: 22px; font-family:Times  " > Se déconnecté </b></a></li>  
+          <li><a href="logout.php"> <b style="color:black ; font-size: 22px;> <i class=fa fa-sign-out"> </b></i> <b style="color:black ; font-size: 22px; font-family:Times  " > Se déconnecter </b></a></li>  
         </ul>
       </div>
       <!-- /.navbar-custom-menu -->

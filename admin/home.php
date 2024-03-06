@@ -100,7 +100,7 @@
                 echo "<h3>".$query->num_rows."</h3>";
               ?>
              
-              <p> <b >Nombre d'élection</b></p>
+              <p> <b >Nombre d'Électeurs</b></p>
             </div>
             <div class="icon">
             </div>
